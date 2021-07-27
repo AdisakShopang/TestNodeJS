@@ -1,4 +1,9 @@
-console.log('Server Start');
+// import { aaa } from './addData.js';
+const upsertFn = require('./addData.js');
+const {queryFn, queryUserById} = require('./readData.js');
+const deleteFn = require('./deleteData.js');
+
+// import * as aaa from './addData.js';
 
 //ทำการ import express เข้ามาใช้งาน โดยสร้างตัวแปร express ขึ้นมาเพื่อรับค่า
 const express = require('express')
@@ -36,6 +41,32 @@ app.post('/sho', (req, res) => {
     const temp = req.body.firstname;
     
     return res.send('SHO123:'+temp + 'tempParam:'+tempParam);
+})
+
+app.post('/callAddData', async (req, res) => {
+    // console.log(''upsertFn);
+    await upsertFn();
+    // var message:string = "success callAddData" ;
+    var message = "success callAddData" ;
+    return res.send(message);
+})
+
+app.post('/callreadData', async (req, res) => {
+  // console.log(''queryFn);
+  await queryFn();
+  return res.send("success callreadData");
+})
+
+app.post('/callQueryUserById', async (req, res) => {
+  // console.log(''queryFn);
+  let response = await queryUserById();
+  return res.send(response);
+})
+
+app.post('/callDeleteData', async (req, res) => {
+  // console.log(''queryFn);
+  await deleteFn();
+  return res.send("success callDeleteData");
 })
 
 //run web server ที่เราสร้างไว้ โดยใช้ PORT ที่เรากำหนดไว้ในตัวแปร PORT
